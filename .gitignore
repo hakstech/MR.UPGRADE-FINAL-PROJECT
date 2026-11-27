@@ -1,0 +1,26 @@
+# ============================================================
+# MR. UPGRADE — .gitignore
+# Files that must NEVER be pushed to GitHub
+# ============================================================
+
+# Sensitive config files (contain real credentials)
+config/db.php
+config/pesapal.php
+config/africastalking.php
+config/google_oauth.php
+
+# Server config (contains environment-specific rules)
+.htaccess
+
+# Logs
+logs/
+*.log
+
+# Test files (delete before going fully live)
+test_at.php
+test_pesapal.php
+test_sms.php
+
+# OS files
+.DS_Store
+Thumbs.db
