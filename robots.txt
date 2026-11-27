@@ -1,0 +1,20 @@
+# Mr. Upgrade — robots.txt
+# Tells Google and other search engines what to crawl
+
+User-agent: *
+
+# Allow everything important
+Allow: /pages/
+Allow: /assets/
+
+# Block sensitive directories
+Disallow: /config/
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /uploads/
+Disallow: /payments/
+Disallow: /logs/
+Disallow: /test_*.php
+
+# Sitemap location — Google uses this to find all pages
+Sitemap: https://mrupgrade.mmuhub.com/sitemap.php

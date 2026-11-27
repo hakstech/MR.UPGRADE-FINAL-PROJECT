@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Mr. Upgrade — Website User Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  :root {
+    --blue:   #2563eb;
+    --dark:   #0a0e1a;
+    --orange: #f97316;
+    --green:  #16a34a;
+    --light:  #f8fafc;
+    --border: #e2e8f0;
+    --text:   #0f172a;
+    --muted:  #64748b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    background: #fff;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ---- COVER PAGE ---- */
+  .cover {
+    background: linear-gradient(135deg, #0a0e1a 0%, #1e3a8a 50%, #0a0e1a 100%);
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    page-break-after: always;
+  }
+  .cover-logo {
+    width: 120px; height: 120px;
+    background: rgba(255,255,255,.08);
+    border: 2px solid rgba(255,255,255,.2);
+    border-radius: 28px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 2rem;
+  }
+  .cover-logo img { width: 80px; height: 80px; object-fit: contain; }
+  .cover-brand { max-width: 320px; margin: 0 auto 2.5rem; }
+  .cover-brand img { width: 100%; height: auto; mix-blend-mode: screen; filter: brightness(1.1); }
+  .cover h1 { font-size: 2.4rem; font-weight: 900; margin-bottom: .75rem; }
+  .cover h1 span { color: #f97316; }
+  .cover p { color: rgba(255,255,255,.7); font-size: 1.05rem; max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.7; }
+  .cover-meta {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px;
+    padding: 1.25rem 2rem;
+    display: inline-block;
+  }
+  .cover-meta p { color: rgba(255,255,255,.65); font-size: .875rem; margin-bottom: .3rem; }
+  .cover-meta strong { color: #fff; }
+  .cover-footer { margin-top: 3rem; color: rgba(255,255,255,.4); font-size: .8rem; }
+
+  /* ---- TOC PAGE ---- */
+  .toc-page {
+    padding: 3rem 3rem 2rem;
+    page-break-after: always;
+  }
+  .toc-page h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--dark); }
+  .toc-list { list-style: none; }
+  .toc-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .6rem 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: .9rem;
+  }
+  .toc-list li:last-child { border-bottom: none; }
+  .toc-num { color: var(--blue); font-weight: 700; margin-right: .75rem; }
+  .toc-dots { flex: 1; border-bottom: 1px dotted #cbd5e1; margin: 0 .5rem; }
+  .toc-page-num { color: var(--muted); font-size: .8rem; }
+  .toc-section { font-weight: 700; color: var(--dark); }
+
+  /* ---- CONTENT PAGES ---- */
+  .page {
+    padding: 2.5rem 3rem;
+    page-break-after: always;
+    min-height: 100vh;
+    position: relative;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  /* Page header stripe */
+  .page-stripe {
+    background: linear-gradient(135deg, var(--dark), #1e3a8a);
+    color: #fff;
+    padding: 1.25rem 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .page-stripe .section-num {
+    width: 40px; height: 40px;
+    background: var(--orange);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .page-stripe h2 { font-size: 1.3rem; font-weight: 800; }
+  .page-stripe p  { font-size: .82rem; opacity: .75; margin-top: .15rem; }
+
+  h3 { font-size: 1rem; font-weight: 700; color: var(--dark); margin: 1.5rem 0 .6rem; }
+  h3::before { content: ''; display: inline-block; width: 4px; height: 1em; background: var(--blue); border-radius: 2px; margin-right: .5rem; vertical-align: middle; }
+
+  p { color: #334155; margin-bottom: .75rem; line-height: 1.7; }
+
+  /* Steps */
+  .steps { display: flex; flex-direction: column; gap: 1rem; margin: 1rem 0; }
+  .step {
+    display: flex; gap: 1rem; align-items: flex-start;
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+  }
+  .step-num {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--blue); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: .9rem; flex-shrink: 0;
+  }
+  .step-content h4 { font-weight: 700; font-size: .9rem; margin-bottom: .25rem; }
+  .step-content p  { font-size: .85rem; color: var(--muted); margin: 0; }
+
+  /* Info boxes */
+  .info-box {
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin: 1rem 0;
+    display: flex;
+    gap: .75rem;
+    align-items: flex-start;
+  }
+  .info-box.blue   { background: #eff6ff; border: 1px solid #bfdbfe; }
+  .info-box.green  { background: #f0fdf4; border: 1px solid #bbf7d0; }
+  .info-box.orange { background: #fff7ed; border: 1px solid #fed7aa; }
+  .info-box.red    { background: #fef2f2; border: 1px solid #fecaca; }
+  .info-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: .1rem; }
+  .info-box.blue   .info-icon { color: #2563eb; }
+  .info-box.green  .info-icon { color: #16a34a; }
+  .info-box.orange .info-icon { color: #f97316; }
+  .info-box.red    .info-icon { color: #dc2626; }
+  .info-box p { margin: 0; font-size: .875rem; }
+  .info-box strong { color: var(--text); }
+
+  /* Tables */
+  .guide-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .875rem; }
+  .guide-table th { background: var(--dark); color: #fff; padding: .6rem .9rem; text-align: left; font-weight: 600; }
+  .guide-table td { padding: .6rem .9rem; border-bottom: 1px solid var(--border); }
+  .guide-table tr:last-child td { border-bottom: none; }
+  .guide-table tr:nth-child(even) td { background: var(--light); }
+
+  /* Badges */
+  .badge {
+    display: inline-block; padding: .2rem .65rem;
+    border-radius: 50px; font-size: .72rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .04em;
+  }
+  .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+  .badge-green  { background: #dcfce7; color: #15803d; }
+  .badge-orange { background: #ffedd5; color: #c2410c; }
+  .badge-red    { background: #fee2e2; color: #b91c1c; }
+
+  /* URL display */
+  .url-box {
+    background: #1e293b; color: #7dd3fc;
+    padding: .5rem 1rem; border-radius: 8px;
+    font-family: monospace; font-size: .85rem;
+    margin: .5rem 0; display: inline-block;
+  }
+
+  /* Page footer */
+  .page-footer {
+    position: fixed; bottom: 1.5rem; left: 3rem; right: 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--border); padding-top: .5rem;
+    font-size: .72rem; color: var(--muted);
+  }
+
+  /* Print settings */
+  @media print {
+    body { font-size: 13px; }
+    .page { padding: 2rem 2.5rem; }
+    .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page-stripe { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .step-num { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .guide-table th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  /* Print button (hidden when printing) */
+  .print-btn {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: var(--blue); color: #fff;
+    border: none; border-radius: 10px; padding: .75rem 1.5rem;
+    font-size: .9rem; font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 16px rgba(37,99,235,.4);
+    display: flex; align-items: center; gap: .5rem;
+    font-family: 'Inter', sans-serif;
+    z-index: 999;
+  }
+  @media print { .print-btn { display: none; } }
+</style>
+</head>
+<body>
+
+<!-- ============ PRINT BUTTON ============ -->
+<button class="print-btn" onclick="window.print()">
+  🖨️ Save as PDF / Print
+</button>
+
+<!-- ============ COVER PAGE ============ -->
+<div class="cover">
+  <div class="cover-brand">
+    <img src="../assets/images/logo-dark.png" alt="Mr. Upgrade"/>
+  </div>
+  <h1>Website <span>User Guide</span></h1>
+  <p>A complete step-by-step guide for managing your Mr. Upgrade online store — from browsing products to processing orders and updating your inventory.</p>
+  <div class="cover-meta">
+    <p>Prepared for: <strong>Mr. Upgrade</strong></p>
+    <p>Location: <strong>Pioneer Mall, Room PG52, Kampala</strong></p>
+    <p>Website: <strong>https://mrupgrade.mmuhub.com</strong></p>
+    <p>Document version: <strong>1.0 — 2026</strong></p>
+  </div>
+  <div class="cover-footer">Confidential — For internal use only</div>
+</div>
+
+<!-- ============ TABLE OF CONTENTS ============ -->
+<div class="toc-page">
+  <h2> Table of Contents</h2>
+  <ul class="toc-list">
+    <li><span><span class="toc-num">1.</span><span class="toc-section">Getting Started — Accessing the Website</span></span><span class="toc-dots"></span><span class="toc-page-num">3</span></li>
+    <li><span><span class="toc-num">2.</span><span class="toc-section">Customer Side — How the Website Works</span></span><span class="toc-dots"></span><span class="toc-page-num">4</span></li>
+    <li><span><span class="toc-num">3.</span><span class="toc-section">Admin Panel — Logging In</span></span><span class="toc-dots"></span><span class="toc-page-num">5</span></li>
+    <li><span><span class="toc-num">4.</span><span class="toc-section">Admin Dashboard — Overview</span></span><span class="toc-dots"></span><span class="toc-page-num">6</span></li>
+    <li><span><span class="toc-num">5.</span><span class="toc-section">Managing Products</span></span><span class="toc-dots"></span><span class="toc-page-num">7</span></li>
+    <li><span><span class="toc-num">6.</span><span class="toc-section">Managing Orders</span></span><span class="toc-dots"></span><span class="toc-page-num">8</span></li>
+    <li><span><span class="toc-num">7.</span><span class="toc-section">Installment Plans</span></span><span class="toc-dots"></span><span class="toc-page-num">9</span></li>
+    <li><span><span class="toc-num">8.</span><span class="toc-section">Customer Messages & SMS Replies</span></span><span class="toc-dots"></span><span class="toc-page-num">10</span></li>
+    <li><span><span class="toc-num">9.</span><span class="toc-section">Viewing Customers</span></span><span class="toc-dots"></span><span class="toc-page-num">11</span></li>
+    <li><span><span class="toc-num">10.</span><span class="toc-section">My Account — Changing Password & Profile</span></span><span class="toc-dots"></span><span class="toc-page-num">12</span></li>
+    <li><span><span class="toc-num">11.</span><span class="toc-section">Important Tips & Security</span></span><span class="toc-dots"></span><span class="toc-page-num">13</span></li>
+  </ul>
+</div>
+
+<!-- ============ SECTION 1: GETTING STARTED ============ -->
+<div class="page">
+  <div class="page-stripe">
+    <div class="section-num">1</div>
+    <div>
+      <h2>Getting Started</h2>
+      <p style="color: var(--muted);">Accessing your website and admin panel</p>
+    </div>
+  </div>
+
+  <h3>Your Website Links</h3>
+  <table class="guide-table">
+    <tr><th>What</th><th>Link</th></tr>
+    <tr><td>🌐 Customer Website</td><td><span class="url-box">https://mrupgrade.mmuhub.com</span></td></tr>
+    <tr><td>⚙️ Admin Panel</td><td><span class="url-box">https://mrupgrade.mmuhub.com/admin</span></td></tr>
+  </table>
+
+  <h3>Admin Login Details</h3>
+  <table class="guide-table">
+    <tr><th>Field</th><th>Value</th></tr>
+    <tr><td>Email</td><td><strong>admin@gmail.com</strong></td></tr>
+    <tr><td>Password</td><td><strong>Admin@123</strong></td></tr>
+  </table>
+
+  <div class="info-box red">
+    <span class="info-icon">🔒</span>
+    <p><strong>Keep your password safe!</strong> Do not share your admin login with anyone. If you think someone else knows your password, change it immediately from My Account in the admin panel.</p>
+  </div>
+
+  <h3>What Browsers to Use</h3>
+  <p>The website works best on:</p>
+  <ul style="margin-left:1.5rem;color:#334155;line-height:2">
+    <li><strong>Google Chrome</strong> (recommended)</li>
+    <li>Mozilla Firefox</li>
+    <li>Microsoft Edge</li>
+  </ul>
+</div>
+
+<!-- ============ SECTION 2: CUSTOMER SIDE ============ -->
+<div class="page">
+  <div class="page-stripe">
+    <div class="section-num">2</div>
+    <div>
+      <h2>Customer Side</h2>
+      <p style="color: var(--muted);">How customers use your website</p>
+    </div>
+  </div>
+
+  <p>This is what your customers see and do on your website:</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Browse Products</h4>
+        <p>Customers visit your site and browse iPhones, Samsung, Google Pixel, laptops and more. They can filter by category, condition and price.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Create an Account / Login</h4>
+        <p>Customers must register with their name, email and phone number to place an order.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Add to Cart</h4>
+        <p>Customers click "Add" on a product to add it to their cart. They can adjust quantities or remove items.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Choose Payment Type</h4>
+        <p>At checkout, customers choose <strong>Full Payment</strong> or <strong>Installment Plan</strong> (40% deposit, rest over 10/12/16 weeks).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Choose Fulfillment</h4>
+        <p>Customers choose to either <strong>Pick Up at Store</strong> (Pioneer Mall, Room PG52) or <strong>Delivery</strong>.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <h4>Pay via MTN or Airtel</h4>
+        <p>Customer selects MTN MoMo or Airtel Money → gets redirected to Pesapal's secure payment page → enters number → receives USSD PIN prompt on phone → approves → money is deducted → order confirmed.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box green">
+    <span class="info-icon">✅</span>
+    <p><strong>Cash on Delivery</strong> is also available. The customer pays when they collect from the store or when delivered.</p>
+  </div>
+</div>
+
+<!-- ============ SECTION 3: ADMIN LOGIN ============ -->
+<div class="page">
+  <div class="page-stripe">
+    <div class="section-num">3</div>
+    <div>
+      <h2>Admin Panel — Logging In</h2>
+      <p style="color: var(--muted);">How to access your management dashboard</p>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Go to the Admin Login Page</h4>
+        <p>Open your browser and go to: <span class="url-box">https://mrupgrade.mmuhub.com/auth/login.php</span></p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Enter Your Credentials</h4>
+        <p>Type your admin email and password, then click <strong>"Sign In"</strong>.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>You Are Redirected to the Dashboard</h4>
+        <p>As admin, you are automatically taken to the admin panel dashboard — not the customer homepage.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box orange">
+    <span class="info-icon">⚠️</span>
+    <p><strong>Forgot password?</strong> Currently there is no "forgot password" link. If you forget your password, contact your website developer to reset it.</p>
+  </div>
+
+  <h3>Admin Navigation Sidebar</h3>
+  <p>Once logged in, you will see a sidebar on the left with these sections:</p>
+  <table class="guide-table">
+    <tr><th>Menu Item</th><th>What it does</th></tr>
+    <tr><td>📊 Dashboard</td><td>Overview — total orders, revenue, customers, low stock</td></tr>
+    <tr><td>📱 Products</td><td>Add, edit, delete products</td></tr>
+    <tr><td>📦 Orders</td><td>View and manage customer orders</td></tr>
+    <tr><td>📅 Installments</td><td>Track installment plan payments</td></tr>
+    <tr><td>👥 Customers</td><td>View all registered customers</td></tr>
+    <tr><td>✉️ Messages</td><td>Read contact messages, reply via SMS/WhatsApp/Email</td></tr>
+    <tr><td>👤 My Account</td><td>Change your name, email, password</td></tr>
+    <tr><td>🔗 View Site</td><td>Open the customer-facing website in a new tab</td></tr>
+  </table>
+</div>
+
+<!-- ============ SECTION 4: DASHBOARD ============ -->
+<div class="page">
+  <div class="page-stripe">
+    <div class="section-num">4</div>
+    <div>
+      <h2>Admin Dashboard</h2>
+      <p style="color: var(--muted);">Your business overview at a glance</p>
+    </div>
+  </div>
+
+  <p>The dashboard is the first page you see after logging in. It gives you a quick summary of your business.</p>
+
+  <h3>What You See on the Dashboard</h3>
+  <table class="guide-table">
+    <tr><th>Card</th><th>What it shows</th></tr>
+    <tr><td>📦 Total Orders</td><td>How many orders have been placed + how many are pending</td></tr>
+    <tr><td>💰 Total Revenue</td><td>Total money from all confirmed orders (in UGX)</td></tr>
+    <tr><td>👥 Customers</td><td>How many people have registered accounts</td></tr>
+    <tr><td>📱 Products</td><td>How many active products + how many are low on stock</td></tr>
+  </table>
+
+  <div class="info-box orange">
+    <span class="info-icon">⚠️</span>
+    <p><strong>Low Stock Alert</strong> — If the stock count for any product reaches 2 or below, it will appear in red on the dashboard. Make sure to update stock quantities regularly.</p>
+  </div>
+
+  <h3>Recent Orders Table</h3>
+  <p>Below the stats, you will see the most recent orders. For each order you can see:</p>
+  <ul style="margin-left:1.5rem;color:#334155;line-height:2">
+    <li>Order number</li>
+    <li>Customer name</li>
+    <li>Number of items</li>
+    <li>Total amount</li>
+    <li>Payment method (MTN/Airtel/Cash)</li>
+    <li>Payment type (Full/Installment)</li>
+    <li>Order status (Pending/Confirmed/Delivered etc.)</li>
+    <li><strong>View</strong> button — click to see full order details</li>
+  </ul>
+</div>
+
+<!-- ============ SECTION 5: PRODUCTS ============ -->
+<div class="page">
+  <div class="page-stripe">
+    <div class="section-num">5</div>
+    <div>
+      <h2>Managing Products</h2>
+      <p style="color: var(--muted);">Add, edit and remove products from your store</p>
+    </div>
+  </div>
+
+  <h3>How to Add a New Product</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Go to Products</h4>
+        <p>Click <strong>"Products"</strong> in the sidebar, then click the <strong>"+ Add Product"</strong> button at the top right.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Fill in the Details</h4>
+        <p>Enter: Product Name, Category, Model, Storage, Color, Condition (New or UK Used), Price (UGX), Stock Quantity, and Description.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Upload a Photo</h4>
+        <p>Click <strong>"Choose File"</strong> and select a photo from your computer. Max size: 20MB. The photo will show a preview before you save.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Mark as Featured (Optional)</h4>
+        <p>Tick <strong>"Featured"</strong> if you want this product to appear on the homepage. Only featured products show on the home page.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h4>Save</h4>
+        <p>Click <strong>"Add Product"</strong>. The product will immediately appear in the shop.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>How to Edit a Product</h3>
+  <p>In the Products list, click the <strong>✏️ pen icon</strong> next to any product. Change what you need and click <strong>"Save Changes"</strong>.</p>
+
+  <h3>How to Remove a Product</h3>
+  <p>Click the <strong>🗑️ red trash icon</strong> next to a product. A confirmation popup will appear — click <strong>"Delete"</strong> to confirm. The product will be hidden from the shop immediately.</p>
+
+  <div class="info-box blue">
+    <span class="info-icon">ℹ️</span>
+    <p><strong>Tip:</strong> To temporarily hide a product without deleting it, edit it and uncheck <strong>"Active (visible on site)"</strong>. It will be hidden from customers but still in your database.</p>
+  </div>
+</div>
+
+<!-- ============ SECTION 6: ORDERS ============ -->
+<div class="page">
+  <div class="page-stripe">
+    <div class="section-num">6</div>
+    <div>
+      <h2>Managing Orders</h2>
+      <p style="color: var(--muted);">View, process and update customer orders</p>
+    </div>
+  </div>
+
+  <h3>Order Status Meanings</h3>
+  <table class="guide-table">
+    <tr><th>Status</th><th>Meaning</th><th>What to do</th></tr>
+    <tr><td><span class="badge badge-orange">Pending</span></td><td>Order placed, awaiting confirmation</td><td>Confirm payment, change to Confirmed</td></tr>
+    <tr><td><span class="badge badge-blue">Confirmed</span></td><td>Payment confirmed</td><td>Prepare the item</td></tr>
+    <tr><td><span class="badge badge-blue">Processing</span></td><td>Being prepared</td><td>Pack the item</td></tr>
+    <tr><td><span class="badge badge-blue">Shipped</span></td><td>Out for delivery</td><td>Wait for delivery confirmation</td></tr>
+    <tr><td><span class="badge badge-green">Delivered</span></td><td>Customer received it</td><td>Nothing — order complete ✅</td></tr>
+    <tr><td><span class="badge badge-red">Cancelled</span></td><td>Order was cancelled</td><td>Check reason, contact customer if needed</td></tr>
+  </table>
+
+  <h3>How to Update an Order Status</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Open the Order</h4>
+        <p>Click <strong>"View"</strong> next to any order in the Orders list.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Scroll to "Update Order Status"</h4>
+        <p>At the bottom of the order detail page, find the orange <strong>"Update Order Status"</strong> section.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Select New Status + Payment Status</h4>
+        <p>Choose the new Order Status and Payment Status from the dropdowns, then click <strong>"Update"</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box green">
+    <span class="info-icon">💡</span>
+    <p><strong>Payment Status:</strong> When a customer pays, it automatically updates. But for Cash on Delivery orders, you must manually change Payment Status to <strong>"Fully Paid"</strong> after they pay.</p>
+  </div>
+</div>
+
+<!-- ============ SECTION 7: INSTALLMENTS ============ -->
+<div class="page">
+  <div class="page-stripe">
+    <div class="section-num">7</div>
+    <div>
+      <h2>Installment Plans</h2>
+      <p style="color: var(--muted);">Track customers paying in weekly installments</p>
+    </div>
+  </div>
+
+  <p>When a customer chooses the installment option, they pay <strong>40% deposit</strong> now and the remaining balance in weekly payments over 10, 12 or 16 weeks.</p>
+
+  <h3>How to Track Installment Payments</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Go to Installments</h4>
+        <p>Click <strong>"Installments"</strong> in the sidebar. You will see a list of all active installment plans.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Find the Customer's Plan</h4>
+        <p>Each row shows: Order number, Customer name, Total amount, Deposit paid, Weekly payment amount, Progress bar, Status.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Update Weekly Payments</h4>
+        <p>Click <strong>"View & Manage"</strong> → scroll to the Installment Plan section → update <strong>"Weeks Paid"</strong> number each time the customer makes a payment → click <strong>"Update Plan"</strong>.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Mark as Completed</h4>
+        <p>When all weeks are paid, change the Status to <strong>"Completed"</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <table class="guide-table">
+    <tr><th>Installment Status</th><th>Meaning</th></tr>
+    <tr><td><span class="badge badge-blue">Active</span></td><td>Customer is currently paying</td></tr>
+    <tr><td><span class="badge badge-green">Completed</span></td><td>All payments made — fully paid</td></tr>
+    <tr><td><span class="badge badge-red">Defaulted</span></td><td>Customer missed payments</td></tr>
+  </table>
+</div>
+
+<!-- ============ SECTION 8: MESSAGES ============ -->
+<div class="page">
+  <div class="page-stripe">
+    <div class="section-num">8</div>
+    <div>
+      <h2>Customer Messages</h2>
+      <p style="color: var(--muted);">Read and reply to customer contact messages</p>
+    </div>
+  </div>
+
+  <p>When a customer fills in the Contact form on your website, the message appears here. <strong>Unread messages</strong> are shown with a blue dot.</p>
+
+  <h3>How to Read and Reply to a Message</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Click on a Message</h4>
+        <p>Click any message in the left panel. The full message appears on the right side.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Read the Message Details</h4>
+        <p>You can see the customer's name, email, phone number, subject, and their full message.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Choose How to Reply</h4>
+        <p>Scroll down to <strong>"Reply Via"</strong> and choose one of these:</p>
+      </div>
+    </div>
+  </div>
+
+  <table class="guide-table">
+    <tr><th>Reply Option</th><th>How it works</th></tr>
+    <tr><td>📧 Email / Gmail</td><td>Opens your email app pre-filled with the customer's address and subject. Click Send.</td></tr>
+    <tr><td>💬 WhatsApp</td><td>Opens WhatsApp with the customer's number and a pre-written greeting. Click Send.</td></tr>
+    <tr><td>📱 Send SMS</td><td>Type a message (max 160 characters), click <strong>"Send SMS"</strong>. Customer receives a text message on their phone.</td></tr>
+  </table>
+
+  <div class="info-box blue">
+    <span class="info-icon">ℹ️</span>
+    <p><strong>SMS History:</strong> Every SMS you send is saved below the message. You can delete old SMS history entries by clicking the red <strong>✕</strong> button.</p>
+  </div>
+
+  <h3>How to Delete a Message</h3>
+  <p>Open the message → click the red <strong>"Delete"</strong> button at the top → confirm in the popup. The message is permanently removed.</p>
+</div>
+
+<!-- ============ SECTION 9: CUSTOMERS ============ -->
+<div class="page">
+  <div class="page-stripe">
+    <div class="section-num">9</div>
+    <div>
+      <h2>Viewing Customers</h2>
+      <p style="color: var(--muted);">See all registered customers and their order history</p>
+    </div>
+  </div>
+
+  <p>The Customers page shows everyone who has created an account on your website.</p>
+
+  <h3>What You Can See</h3>
+  <table class="guide-table">
+    <tr><th>Column</th><th>What it means</th></tr>
+    <tr><td>Name</td><td>Customer's full name</td></tr>
+    <tr><td>Email</td><td>Their email address</td></tr>
+    <tr><td>Phone</td><td>Their phone number</td></tr>
+    <tr><td>Orders</td><td>How many orders they have placed</td></tr>
+    <tr><td>Total Spent</td><td>Total amount they have paid across all orders (UGX)</td></tr>
+    <tr><td>Joined</td><td>When they created their account</td></tr>
+  </table>
+
+  <div class="info-box blue">
+    <span class="info-icon">ℹ️</span>
+    <p>Currently you can only <strong>view</strong> customers. To contact them, go to <strong>Messages</strong> or use their phone number directly.</p>
+  </div>
+
+  <h3>How to Find a Specific Customer</h3>
+  <p>The customers list shows all customers in order of newest first. Scroll through or look for the customer's name. On desktop, you can use <strong>Ctrl+F</strong> to search within the page.</p>
+</div>
+
+<!-- ============ SECTION 10: MY ACCOUNT ============ -->
+<div class="page">
+  <div class="page-stripe">
+    <div class="section-num">10</div>
+    <div>
+      <h2>My Account</h2>
+      <p style="color: var(--muted);">Update your admin profile and change your password</p>
+    </div>
+  </div>
+
+  <p>Click <strong>"My Account"</strong> at the bottom of the left sidebar to manage your admin profile.</p>
+
+  <h3>Profile Info Tab — Change Your Name or Email</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Click "Profile Info" tab</h4>
+        <p>It is selected by default (blue tab at the top of the form).</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Edit Your Details</h4>
+        <p>Change your name, email or phone number as needed.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Save</h4>
+        <p>Click <strong>"Save Changes"</strong>. The page will refresh and show your updated name in the top bar.</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>Change Password Tab</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h4>Click "Change Password" tab</h4>
+        <p>The tab turns orange when selected.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h4>Enter Your Current Password</h4>
+        <p>For security, you must first confirm your current password.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h4>Enter New Password Twice</h4>
+        <p>Type your new password and confirm it. The strength bar will show if it is weak or strong. Use at least 8 characters with numbers and letters.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h4>Click "Change Password"</h4>
+        <p>Your password is updated immediately.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SECTION 11: TIPS & SECURITY ============ -->
+<div class="page">
+  <div class="page-stripe">
+    <div class="section-num">11</div>
+    <div>
+      <h2>Important Tips & Security</h2>
+      <p style="color: var(--muted);">Best practices for keeping your site safe and running smoothly</p>
+    </div>
+  </div>
+
+  <div class="info-box red">
+    <span class="info-icon">🔒</span>
+    <p><strong>Never share your admin password</strong> with anyone. The admin panel gives full control of your website, products, and customer data.</p>
+  </div>
+
+  <div class="info-box orange">
+    <span class="info-icon">⚠️</span>
+    <p><strong>Change your password regularly</strong> — at least every 3 months. Use a strong password with letters, numbers and symbols.</p>
+  </div>
+
+  <div class="info-box blue">
+    <span class="info-icon">ℹ️</span>
+    <p><strong>Always log out</strong> when using the admin panel on a shared or public computer. Click <strong>"Logout"</strong> at the bottom of the sidebar.</p>
+  </div>
+
+  <h3>Quick Reference — Common Tasks</h3>
+  <table class="guide-table">
+    <tr><th>Task</th><th>Where to go</th></tr>
+    <tr><td>Add a new phone to the shop</td><td>Admin → Products → + Add Product</td></tr>
+    <tr><td>Update a product price</td><td>Admin → Products → ✏️ Edit</td></tr>
+    <tr><td>Mark an order as delivered</td><td>Admin → Orders → View → Update Status → Delivered</td></tr>
+    <tr><td>Mark cash payment received</td><td>Admin → Orders → View → Update Payment Status → Paid</td></tr>
+    <tr><td>Update installment weeks paid</td><td>Admin → Orders → View → Installment Plan section</td></tr>
+    <tr><td>Reply to a customer message</td><td>Admin → Messages → Click message → Reply Via</td></tr>
+    <tr><td>Change your password</td><td>Admin → My Account → Change Password tab</td></tr>
+    <tr><td>View all customers</td><td>Admin → Customers</td></tr>
+  </table>
+
+  <h3>Need Technical Help?</h3>
+  <p>If the website has a technical problem, contact your website developer (Haks Technogies). Keep this guide for reference on day-to-day operations.</p>
+
+  <div style="margin-top:3rem;padding:1.5rem;background:linear-gradient(135deg,#0a0e1a,#1e3a8a);border-radius:14px;color:#fff;text-align:center">
+    <img src="../assets/images/favicon.png" alt="Mr. Upgrade" style="width:48px;height:48px;border-radius:12px;margin:0 auto .75rem;display:block"/>
+    <p style="font-weight:800;font-size:1.1rem;margin-bottom:.3rem";>Mr. Upgrade</p>
+    <p style="color:rgba(255,255,255,.65);font-size:.85rem;margin:0">Pioneer Mall, Room PG52, Kampala &bull; +256 784 041 256</p>
+    <p style="color:rgba(255,255,255,.5);font-size:.78rem;margin-top:.5rem">Don't just get a Gadget. Get an upgrade.</p>
+  </div>
+</div>
+
+<script>
+// Auto-open print dialog hint
+document.querySelector('.print-btn').addEventListener('click', function() {
+  window.print();
+});
+</script>
+
+</body>
+</html>
