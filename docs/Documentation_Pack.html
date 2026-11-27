@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>MR UPGRADE — Documentation Pack | BIT 2103</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --dark:   #0a0e1a;
+  --blue:   #2563eb;
+  --orange: #f97316;
+  --light:  #f8fafc;
+  --border: #e2e8f0;
+  --text:   #0f172a;
+  --muted:  #64748b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  background: #fff;
+  font-size: 11pt;
+  line-height: 1.6;
+}
+
+/* ---- PRINT BUTTON ---- */
+.print-btn {
+  position: fixed; bottom: 1.5rem; right: 1.5rem;
+  background: var(--blue); color: #fff;
+  border: none; border-radius: 10px; padding: .7rem 1.4rem;
+  font-size: .9rem; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(37,99,235,.4);
+  font-family: 'Inter', sans-serif;
+  z-index: 999;
+}
+@media print { .print-btn { display: none; } }
+
+/* ---- COVER PAGE ---- */
+.cover {
+  background: linear-gradient(135deg, #0a0e1a 0%, #1e3a8a 50%, #0a0e1a 100%);
+  color: #fff;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center;
+  padding: 3rem 2rem;
+  page-break-after: always;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.cover-logo {
+  width: 90px; height: 90px;
+  background: rgba(255,255,255,.08);
+  border: 2px solid rgba(255,255,255,.2);
+  border-radius: 24px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+.cover-logo img { width: 60px; height: 60px; object-fit: contain; }
+.cover h1 { font-size: 1.8rem; font-weight: 900; margin-bottom: .5rem; }
+.cover h2 { font-size: 1rem; font-weight: 400; opacity: .7; margin-bottom: 2rem; }
+.cover-uni { font-size: .78rem; opacity: .55; margin-bottom: 2rem; letter-spacing: .03em; }
+.cover-table {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 14px;
+  padding: 1.5rem 2rem;
+  text-align: left;
+  width: 100%; max-width: 500px;
+}
+.cover-table table { width: 100%; border-collapse: collapse; }
+.cover-table td { padding: .4rem .5rem; font-size: .875rem; }
+.cover-table td:first-child { font-weight: 700; color: rgba(255,255,255,.65); width: 45%; }
+.cover-table td:last-child { color: #fff; }
+.cover-toc {
+  margin-top: 2rem;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  width: 100%; max-width: 500px;
+  text-align: left;
+}
+.cover-toc h3 { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.5); margin-bottom: .75rem; }
+.cover-toc table { width: 100%; border-collapse: collapse; }
+.cover-toc td { padding: .3rem .4rem; font-size: .8rem; color: rgba(255,255,255,.8); }
+.cover-toc td:first-child { width: 30px; color: var(--orange); font-weight: 700; }
+.orange { color: #f97316; }
+
+/* ---- DOCUMENT PAGES ---- */
+.doc-page {
+  padding: 2.5rem 2.75rem;
+  page-break-after: always;
+  min-height: 100vh;
+  position: relative;
+}
+.doc-page:last-child { page-break-after: auto; }
+
+/* Document header stripe */
+.doc-header {
+  background: linear-gradient(135deg, var(--dark), #1e3a8a);
+  color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.doc-num {
+  width: 36px; height: 36px;
+  background: var(--orange);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 1rem; color: #fff;
+  flex-shrink: 0;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+.doc-header-text h2 { font-size: 1.1rem; font-weight: 800; }
+.doc-header-text p  { font-size: .78rem; opacity: .7; margin-top: .1rem; }
+
+h3 {
+  font-size: .95rem; font-weight: 700; color: var(--blue);
+  margin: 1.5rem 0 .6rem;
+  padding-bottom: .3rem;
+  border-bottom: 2px solid var(--border);
+}
+
+p { margin-bottom: .6rem; color: #334155; font-size: .9rem; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; margin: .75rem 0; font-size: .875rem; }
+th {
+  background: var(--dark); color: #fff;
+  padding: .55rem .8rem; text-align: left; font-weight: 600;
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+td { padding: .5rem .8rem; border-bottom: 1px solid var(--border); }
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) td { background: var(--light); }
+
+/* Meta info blocks */
+.meta-block {
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: .9rem 1.1rem;
+  margin-bottom: 1rem;
+}
+.meta-block table { margin: 0; }
+.meta-block td { background: transparent !important; border: none; padding: .3rem .4rem; font-size: .875rem; }
+.meta-block td:first-child { font-weight: 600; color: var(--muted); width: 35%; }
+
+/* Signature block */
+.sig-block {
+  margin-top: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.sig-block table { margin: 0; }
+.sig-block th {
+  background: var(--blue); color: #fff;
+  padding: .5rem .8rem; font-weight: 600; font-size: .8rem;
+}
+.sig-block td { padding: .6rem .8rem; font-size: .875rem; min-height: 36px; }
+.sig-label { font-weight: 600; color: var(--muted); font-size: .78rem; }
+
+/* Info box */
+.info-box {
+  background: #eff6ff; border: 1px solid #bfdbfe;
+  border-radius: 8px; padding: .85rem 1rem;
+  margin: 1rem 0; font-size: .85rem; color: #1e40af;
+}
+
+/* Section divider */
+.doc-divider {
+  border: none; border-top: 3px solid var(--border);
+  margin: 2rem 0;
+}
+
+/* Footer */
+.doc-footer {
+  position: fixed; bottom: 1rem; left: 2.75rem; right: 2.75rem;
+  display: flex; justify-content: space-between;
+  font-size: .68rem; color: var(--muted);
+  border-top: 1px solid var(--border);
+  padding-top: .3rem;
+}
+@media print { .doc-footer { display: flex !important; } }
+
+/* Checklist */
+.check-row td:first-child { text-align: center; width: 40px; }
+
+ol { padding-left: 1.25rem; color: #334155; font-size: .875rem; }
+ol li { margin-bottom: .4rem; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<button class="print-btn" onclick="window.print()">🖨️ Save as PDF / Print</button>
+
+<!-- ================================================================
+     COVER PAGE
+     ================================================================ -->
+<div class="cover">
+  <div class="cover-logo">
+    <img src="../assets/images/favicon.png" alt="Mr. Upgrade"/>
+  </div>
+  <div style="max-width:280px;margin:0 auto 1.5rem">
+    <img src="../assets/images/Logo.png" alt="Mr. Upgrade" style="width:100%;mix-blend-mode:screen;filter:brightness(1.1)"/>
+  </div>
+  <h1>Client Engagement &amp;<br/>Professional Documentation</h1>
+  <h2>BIT 2103 — Internet Technologies &amp; Advanced Website Development</h2>
+  <p class="cover-uni">Mountains of the Moon University &bull; Faculty of Science, Technology and Innovations &bull; Bachelor of Computer Science</p>
+
+  <div class="cover-table">
+    <table>
+      <tr><td>Name:</td><td>Kasozi Hafizu</td></tr>
+      <tr><td>Reg No:</td><td>2025/U/MMU/BCS/00068</td></tr>
+      <tr><td>Programme:</td><td>Bachelor of Computer Science</td></tr>
+      <tr><td>Client / Business:</td><td>MR UPGRADE</td></tr>
+      <tr><td>Platform / Stack:</td><td>Plain PHP + MySQL</td></tr>
+      <tr><td>Live URL:</td><td>mrupgrade.mmuhub.com</td></tr>
+      <tr><td>Submission deadline:</td><td>27th November 2026</td></tr>
+      <tr><td>Presentation date:</td><td>03rd December 2026</td></tr>
+    </table>
+  </div>
+
+  <div class="cover-toc">
+    <h3>Contents of this documentation pack</h3>
+    <table>
+      <tr><td>1</td><td>Client Consent Letter</td></tr>
+      <tr><td>2</td><td>Client Requirements Questionnaire &amp; Meeting Minutes</td></tr>
+      <tr><td>3</td><td>Client Brief</td></tr>
+      <tr><td>4</td><td>Project Proposal</td></tr>
+      <tr><td>5</td><td>Quotation</td></tr>
+      <tr><td>6</td><td>Invoice</td></tr>
+      <tr><td>7</td><td>Non-Disclosure Agreement</td></tr>
+      <tr><td>8</td><td>Handover Pack</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ================================================================
+     DOCUMENT 1 — CLIENT CONSENT LETTER
+     ================================================================ -->
+<div class="doc-page">
+  <div class="doc-header">
+    <div class="doc-num">1</div>
+    <div class="doc-header-text">
+      <h2>Client Consent Letter</h2>
+      <p>Consent to design, build, publish and showcase the website</p>
+    </div>
+  </div>
+
+  <div class="meta-block">
+    <table>
+      <tr><td>Date:</td><td>6th November 2026</td></tr>
+      <tr><td>Client / Business:</td><td>MR UPGRADE</td></tr>
+      <tr><td>Client Representative:</td><td>Lubega Shanan</td></tr>
+      <tr><td>Address:</td><td>Pioneer Mall, Room PG52, Kampala</td></tr>
+      <tr><td>Phone:</td><td>+256 743 741 601</td></tr>
+    </table>
+  </div>
+
+  <p>Dear Lubega Shanan,</p>
+  <p><strong>Subject: Consent to build and publish a website for MR UPGRADE.</strong></p>
+
+  <table>
+    <tr><th>Project</th><th>Details</th></tr>
+    <tr><td>Project</td><td>Design, development, hosting and launch of a website for MR UPGRADE</td></tr>
+    <tr><td>Developer</td><td>Kasozi Hafizu — Reg No: 2025/U/MMU/BCS/00068</td></tr>
+    <tr><td>Institution</td><td>Mountains of the Moon University — Bachelor of Computer Science</td></tr>
+    <tr><td>Purpose</td><td>Practical examination, BIT 2103 (Examiner: Mr. Mwanje Derrick)</td></tr>
+  </table>
+
+  <h3>I consent to the following</h3>
+  <ol>
+    <li><strong>Build and publish.</strong> The Developer may design, build and publish a website for MR UPGRADE on a live server under the domain mrupgrade.mmuhub.com.</li>
+    <li><strong>Use of information.</strong> The Developer may use the business name, logo, products, prices and contact details I supply.</li>
+    <li><strong>Use of images.</strong> The Developer may use photographs and logos supplied or taken at the premises with permission.</li>
+    <li><strong>Assessment.</strong> The website and project documents may be shown to the university examiner, who will receive a temporary admin account deleted after marking.</li>
+    <li><strong>Confidentiality.</strong> Non-public information is protected under the signed NDA. No personal data will be published without permission.</li>
+    <li><strong>Data protection.</strong> Personal data will be handled in line with the Data Protection and Privacy Act, 2019 of Uganda.</li>
+    <li><strong>Ownership after handover.</strong> Ownership is as stated in the Project Proposal.</li>
+  </ol>
+
+  <h3>Optional Permissions</h3>
+  <table>
+    <tr><th>Permission</th><th>Yes</th><th>No</th></tr>
+    <tr><td>Developer may list this project in a personal portfolio</td><td>☐</td><td>☐</td></tr>
+    <tr><td>Developer may use screenshots in social media or presentations</td><td>☐</td><td>☐</td></tr>
+  </table>
+
+  <p style="margin-top:.75rem"><strong>Information NOT to be published:</strong> Staff personal phone numbers, internal stock costs.</p>
+
+  <div class="sig-block">
+    <table>
+      <tr><th colspan="2">Client (for the business)</th><th colspan="2">Developer</th></tr>
+      <tr>
+        <td class="sig-label">Full name</td><td>Lubega Shanan</td>
+        <td class="sig-label">Full name</td><td>Kasozi Hafizu</td>
+      </tr>
+      <tr>
+        <td class="sig-label">Signature</td><td style="height:40px"></td>
+        <td class="sig-label">Signature</td><td style="height:40px"></td>
+      </tr>
+      <tr>
+        <td class="sig-label">Date</td><td></td>
+        <td class="sig-label">Date</td><td>6th November 2026</td>
+      </tr>
+    </table>
+  </div>
+  <div class="doc-footer"><span>Confidential</span><span>MR UPGRADE — BIT 2103 Documentation Pack</span><span>Document 1 of 8</span></div>
+</div>
+
+<!-- ================================================================
+     DOCUMENT 2 — CLIENT REQUIREMENTS QUESTIONNAIRE
+     ================================================================ -->
+<div class="doc-page">
+  <div class="doc-header">
+    <div class="doc-num">2</div>
+    <div class="doc-header-text">
+      <h2>Client Requirements Questionnaire &amp; Meeting Minutes</h2>
+      <p>Meeting guide and answer sheet</p>
+    </div>
+  </div>
+
+  <div class="meta-block">
+    <table>
+      <tr><td>Client / Business:</td><td>MR UPGRADE</td><td>Client Representative:</td><td>Lubega Shanan</td></tr>
+      <tr><td>Date, Time &amp; Venue:</td><td>6th November 2026, 10:00 AM — Pioneer Mall Room PG52</td><td>Interviewer:</td><td>Kasozi Hafizu</td></tr>
+    </table>
+  </div>
+
+  <h3>Opening Consent</h3>
+  <table>
+    <tr><th>Confirm</th><th>✓</th></tr>
+    <tr><td>Website may be built and published online</td><td>✓</td></tr>
+    <tr><td>Business information and images may be used</td><td>✓</td></tr>
+    <tr><td>Client will sign the written consent letter</td><td>✓</td></tr>
+    <tr><td>Client will sign the NDA</td><td>✓</td></tr>
+    <tr><td>Client knows the site will be shown to the examiner</td><td>✓</td></tr>
+    <tr><td>Client accepts a temporary examiner admin account (deleted after marking)</td><td>✓</td></tr>
+  </table>
+
+  <h3>Section 1 — About the Business</h3>
+  <table>
+    <tr><th>Question</th><th>Answer</th></tr>
+    <tr><td>Full business name</td><td>MR UPGRADE</td></tr>
+    <tr><td>What does it do?</td><td>Sells genuine unlocked smartphones (iPhone XR–16 Pro Max, Samsung Galaxy, Google Pixel) and laptops. Offers flexible weekly installment plans — 40% deposit, balance over 10/12/16 weeks.</td></tr>
+    <tr><td>When started / where based?</td><td>Started 2024. Pioneer Mall, Room PG52, Kampala, Uganda.</td></tr>
+    <tr><td>Key people</td><td>Owner: Lubega Shanan</td></tr>
+    <tr><td>Top products</td><td>iPhones (all series), Samsung Galaxy, Google Pixel, HP/Dell/Lenovo/MacBook laptops</td></tr>
+    <tr><td>What makes you different?</td><td>Flexible installment plans, competitive prices, genuine devices, fast deals</td></tr>
+    <tr><td>Mission / slogan</td><td>"Don't just get a Gadget. Get an Upgrade."</td></tr>
+    <tr><td>Current online presence</td><td>WhatsApp: +256 743 741 601</td></tr>
+  </table>
+
+  <h3>Section 2 — Goals</h3>
+  <table>
+    <tr><th>Question</th><th>Answer</th></tr>
+    <tr><td>Why a website now?</td><td>To reach more customers online and automate ordering and installment management</td></tr>
+    <tr><td>Top three goals</td><td>1. Sell online &nbsp; 2. Show all products with prices &nbsp; 3. Manage installment orders digitally</td></tr>
+    <tr><td>Problem to solve</td><td>Customers ask for prices and place orders via WhatsApp manually — slow and unscalable</td></tr>
+    <tr><td>Success measure</td><td>Increased orders, more enquiries, reduced manual WhatsApp-based processing</td></tr>
+  </table>
+
+  <h3>Section 3 — Audience</h3>
+  <table>
+    <tr><th>Question</th><th>Answer</th></tr>
+    <tr><td>Target customers</td><td>Young adults 18–35, employed or students, Kampala and surrounding areas</td></tr>
+    <tr><td>Devices used</td><td>Mostly smartphones (Android and iOS)</td></tr>
+    <tr><td>How customers find the business</td><td>WhatsApp, word of mouth, walk-ins at Pioneer Mall</td></tr>
+    <tr><td>Most common questions</td><td>"Do you have iPhone X?" "What is the price?" "Can I pay in installments?"</td></tr>
+  </table>
+
+  <h3>Section 4 — Pages Agreed</h3>
+  <table>
+    <tr><th>Page</th><th>Included</th></tr>
+    <tr><td>Home</td><td>✓</td></tr>
+    <tr><td>Shop / Products (14 categories, 66+ products)</td><td>✓</td></tr>
+    <tr><td>Product Detail</td><td>✓</td></tr>
+    <tr><td>Cart &amp; Checkout</td><td>✓</td></tr>
+    <tr><td>Installment Plan</td><td>✓</td></tr>
+    <tr><td>My Orders</td><td>✓</td></tr>
+    <tr><td>About Us</td><td>✓</td></tr>
+    <tr><td>Store (physical location)</td><td>✓</td></tr>
+    <tr><td>Contact</td><td>✓</td></tr>
+  </table>
+
+  <h3>Section 5 — Branding</h3>
+  <table>
+    <tr><th>Question</th><th>Answer</th></tr>
+    <tr><td>Logo available?</td><td>Yes — PNG format provided by client</td></tr>
+    <tr><td>Brand colours</td><td>Dark navy (#0a0e1a), electric blue (#2563eb), orange accent (#f97316)</td></tr>
+    <tr><td>Site feel</td><td>Premium, modern, trustworthy — similar to Samsung.com</td></tr>
+    <tr><td>Must appear on every page</td><td>Logo, WhatsApp float button, phone number +256 743 741 601</td></tr>
+  </table>
+
+  <h3>Section 6 — Key Functional Requirements</h3>
+  <table>
+    <tr><th>Feature</th><th>Priority</th></tr>
+    <tr><td>Product catalogue with categories and filters</td><td>Must have</td></tr>
+    <tr><td>Shopping cart and checkout</td><td>Must have</td></tr>
+    <tr><td>Installment plan (40% deposit + weekly tracking)</td><td>Must have</td></tr>
+    <tr><td>MTN MoMo and Airtel Money via Pesapal</td><td>Must have</td></tr>
+    <tr><td>User registration and login</td><td>Must have</td></tr>
+    <tr><td>Admin panel (products, orders, customers, messages)</td><td>Must have</td></tr>
+    <tr><td>Contact form with SMS/WhatsApp/Email reply</td><td>Must have</td></tr>
+    <tr><td>HTTPS and security hardening</td><td>Must have</td></tr>
+    <tr><td>SEO and sitemap</td><td>Should have</td></tr>
+  </table>
+
+  <h3>Section 7 — Technical</h3>
+  <table>
+    <tr><th>Item</th><th>Detail</th></tr>
+    <tr><td>Domain</td><td>mrupgrade.mmuhub.com</td></tr>
+    <tr><td>Hosting</td><td>cPanel hosting via mmuhub.com</td></tr>
+    <tr><td>Payment methods</td><td>MTN Mobile Money, Airtel Money, Cash on Delivery</td></tr>
+    <tr><td>Admin skill level</td><td>Basic — written admin guide provided</td></tr>
+  </table>
+
+  <h3>Meeting Minutes</h3>
+  <table>
+    <tr><td style="font-weight:600;width:35%">Date and time</td><td>6th November 2026, 10:00 AM</td></tr>
+    <tr><td style="font-weight:600">Venue</td><td>Pioneer Mall, Room PG52, Kampala</td></tr>
+    <tr><td style="font-weight:600">Attendees</td><td>Lubega Shanan (Client/Owner), Kasozi Hafizu (Developer)</td></tr>
+    <tr><td style="font-weight:600">Client's top 3 goals</td><td>1. Online shop &nbsp; 2. Installment plan management &nbsp; 3. Mobile money payments</td></tr>
+    <tr><td style="font-weight:600">Key feature agreed</td><td>E-commerce store with installment plan and Pesapal mobile money payment</td></tr>
+    <tr><td style="font-weight:600">Content to be supplied</td><td>Product images, prices, logo, business details</td></tr>
+    <tr><td style="font-weight:600">Action — developer</td><td>Build site, set up hosting, integrate payments, produce documentation</td></tr>
+    <tr><td style="font-weight:600">Action — client</td><td>Supply product photos and prices, sign NDA and consent letter</td></tr>
+    <tr><td style="font-weight:600">Next contact</td><td>13th November 2026</td></tr>
+  </table>
+
+  <div class="sig-block">
+    <table>
+      <tr><th colspan="2">Client</th><th colspan="2">Developer</th></tr>
+      <tr><td class="sig-label">Full name</td><td>Lubega Shanan</td><td class="sig-label">Full name</td><td>Kasozi Hafizu</td></tr>
+      <tr><td class="sig-label">Signature</td><td style="height:40px"></td><td class="sig-label">Signature</td><td style="height:40px"></td></tr>
+      <tr><td class="sig-label">Date</td><td>6th November 2026</td><td class="sig-label">Date</td><td>6th November 2026</td></tr>
+    </table>
+  </div>
+  <div class="doc-footer"><span>Confidential</span><span>MR UPGRADE — BIT 2103 Documentation Pack</span><span>Document 2 of 8</span></div>
+</div>
+
+<!-- ================================================================
+     DOCUMENT 3 — CLIENT BRIEF
+     ================================================================ -->
+<div class="doc-page">
+  <div class="doc-header">
+    <div class="doc-num">3</div>
+    <div class="doc-header-text">
+      <h2>Client Brief</h2>
+      <p>Goals, audience, scope and requirements</p>
+    </div>
+  </div>
+
+  <div class="meta-block">
+    <table>
+      <tr><td>Date:</td><td>6th November 2026</td><td>Client:</td><td>MR UPGRADE — Lubega Shanan</td></tr>
+      <tr><td>Developer:</td><td>Kasozi Hafizu</td><td>Live URL:</td><td>mrupgrade.mmuhub.com</td></tr>
+    </table>
+  </div>
+
+  <h3>1. Business Overview</h3>
+  <p>MR UPGRADE is a smartphone and gadget retail business based at Pioneer Mall, Room PG52, Kampala, Uganda. The business sells genuine unlocked smartphones including iPhones (XR through 16 Pro Max), Samsung Galaxy series, Google Pixel, and laptops (MacBook, HP, Dell, Lenovo). A key differentiator is the flexible installment plan — customers pay 40% deposit and spread the balance over 10, 12 or 16 weekly payments via MTN MoMo or Airtel Money.</p>
+
+  <h3>2. Goals</h3>
+  <ol>
+    <li>Allow customers to browse all products with prices online</li>
+    <li>Enable online ordering with MTN MoMo and Airtel Money payments</li>
+    <li>Manage installment plans digitally, reducing manual WhatsApp-based processing</li>
+  </ol>
+
+  <h3>3. Target Audience</h3>
+  <p>Young adults aged 18–35 in Kampala and surrounding areas, primarily using smartphones, communicating in English. They find the business via WhatsApp and walk-ins and commonly ask about prices and installment availability.</p>
+
+  <h3>4. Scope</h3>
+  <table>
+    <tr><th>In Scope</th><th>Out of Scope</th></tr>
+    <tr>
+      <td>Multi-page responsive e-commerce website<br/>Product catalogue (66+ products, 14 categories)<br/>User registration, login, cart and checkout<br/>Installment plan (40% deposit, weekly tracking)<br/>Pesapal payment (MTN MoMo + Airtel)<br/>Admin panel (products, orders, customers, messages)<br/>SMS via Africa's Talking<br/>SEO, security hardening, sitemap</td>
+      <td>Native mobile app<br/>Multi-language support<br/>Third-party accounting integration</td>
+    </tr>
+  </table>
+
+  <h3>5. Functional Requirements</h3>
+  <table>
+    <tr><th>Requirement</th><th>Priority</th></tr>
+    <tr><td>Product catalogue with categories and filters</td><td>Must have</td></tr>
+    <tr><td>Shopping cart and checkout</td><td>Must have</td></tr>
+    <tr><td>Installment plan (40% deposit + weekly payments)</td><td>Must have</td></tr>
+    <tr><td>MTN MoMo and Airtel Money via Pesapal</td><td>Must have</td></tr>
+    <tr><td>User accounts (register, login, order history)</td><td>Must have</td></tr>
+    <tr><td>Admin dashboard with CRUD operations</td><td>Must have</td></tr>
+    <tr><td>Contact form with SMS/WhatsApp/Email reply</td><td>Must have</td></tr>
+    <tr><td>Mobile responsive design</td><td>Must have</td></tr>
+    <tr><td>HTTPS and security hardening</td><td>Must have</td></tr>
+    <tr><td>SEO meta tags, sitemap, structured data</td><td>Should have</td></tr>
+  </table>
+
+  <h3>6. Non-Functional Requirements</h3>
+  <table>
+    <tr><th>Requirement</th><th>Detail</th></tr>
+    <tr><td>Performance</td><td>Fast loading on mobile with slow connections; image optimisation applied</td></tr>
+    <tr><td>Security</td><td>CSRF protection, prepared statements, rate limiting, session hardening, .htaccess rules</td></tr>
+    <tr><td>Availability</td><td>Site must be live and accessible at all times; hosted on cPanel</td></tr>
+    <tr><td>Scalability</td><td>Admin can add unlimited products and categories via the admin panel</td></tr>
+  </table>
+
+  <h3>7. Technical Requirements</h3>
+  <table>
+    <tr><th>Component</th><th>Technology</th></tr>
+    <tr><td>Backend</td><td>Plain PHP 7.4+</td></tr>
+    <tr><td>Database</td><td>MySQL 8.0 with MySQLi prepared statements</td></tr>
+    <tr><td>Frontend</td><td>HTML5, CSS3, Vanilla JavaScript</td></tr>
+    <tr><td>Hosting</td><td>cPanel (mmuhub.com)</td></tr>
+    <tr><td>Domain</td><td>mrupgrade.mmuhub.com</td></tr>
+    <tr><td>Payment gateway</td><td>Pesapal API v3 (sandbox → live)</td></tr>
+    <tr><td>SMS gateway</td><td>Africa's Talking API</td></tr>
+    <tr><td>Version control</td><td>GitHub — 8+ meaningful commits</td></tr>
+  </table>
+
+  <div class="doc-footer"><span>Confidential</span><span>MR UPGRADE — BIT 2103 Documentation Pack</span><span>Document 3 of 8</span></div>
+</div>
+
+<!-- ================================================================
+     DOCUMENT 4 — PROJECT PROPOSAL
+     ================================================================ -->
+<div class="doc-page">
+  <div class="doc-header">
+    <div class="doc-num">4</div>
+    <div class="doc-header-text">
+      <h2>Project Proposal</h2>
+      <p>Scope, timeline and milestones</p>
+    </div>
+  </div>
+
+  <div class="meta-block">
+    <table>
+      <tr><td>Prepared for:</td><td>MR UPGRADE — Lubega Shanan</td><td>Prepared by:</td><td>Kasozi Hafizu</td></tr>
+      <tr><td>Proposal date:</td><td>8th November 2026</td><td>Valid until:</td><td>22nd November 2026</td></tr>
+    </table>
+  </div>
+
+  <h3>1. Executive Summary</h3>
+  <p>MR UPGRADE needed a professional online presence to move their smartphone and installment-plan business beyond WhatsApp-only sales. The solution is a fully functional e-commerce website built with PHP and MySQL, hosted live at mrupgrade.mmuhub.com. Customers can browse 66+ products across 14 categories, place orders, pay via MTN MoMo or Airtel Money through Pesapal, and manage installment plans online. The admin controls everything through a secure dashboard. The result is a faster, scalable sales process that works 24/7 without manual intervention.</p>
+
+  <h3>2. Proposed Solution</h3>
+  <table>
+    <tr><td style="font-weight:600;width:30%">Platform / Stack</td><td>Plain PHP + MySQL</td></tr>
+    <tr><td style="font-weight:600">Why this platform</td><td>Lightweight, fast, full control, no licensing costs, runs on any cPanel host</td></tr>
+    <tr><td style="font-weight:600">Site structure</td><td>Home, Shop, Product Detail, Cart, Checkout, Orders, Installment Plan, About, Store, Contact</td></tr>
+    <tr><td style="font-weight:600">Business feature</td><td>E-commerce store with installment plan management and mobile money payments</td></tr>
+    <tr><td style="font-weight:600">Hosting &amp; domain</td><td>cPanel hosting; Domain: mrupgrade.mmuhub.com; SSL certificate (HTTPS)</td></tr>
+  </table>
+
+  <h3>3. Scope of Work</h3>
+  <ol>
+    <li>Branded, responsive multi-page website (14 categories, 66+ products, real client content)</li>
+    <li>User registration, login, cart, checkout, order tracking</li>
+    <li>Installment plan system (40% deposit, 10/12/16 weeks, weekly payment tracking)</li>
+    <li>Pesapal payment integration (MTN MoMo + Airtel Money — sandbox → live)</li>
+    <li>Admin panel — products, orders, customers, messages, installments, profile</li>
+    <li>Africa's Talking SMS reply system from admin messages panel</li>
+    <li>HTTPS, security hardening (CSRF, rate limiting, prepared statements, .htaccess)</li>
+    <li>SEO (meta tags, Open Graph, JSON-LD structured data, sitemap, robots.txt)</li>
+    <li>Admin guide, training documentation, support package</li>
+  </ol>
+
+  <h3>4. Deliverables</h3>
+  <table>
+    <tr><th>No.</th><th>Deliverable</th><th>Format</th></tr>
+    <tr><td>1</td><td>Live website</td><td>https://mrupgrade.mmuhub.com</td></tr>
+    <tr><td>2</td><td>Documentation pack</td><td>PDF (printed hardcopy)</td></tr>
+    <tr><td>3</td><td>Source files and database export</td><td>ZIP folder</td></tr>
+    <tr><td>4</td><td>GitHub repository</td><td>https://github.com/hakstech/MR.UPGRADE-FINAL-PROJECT.git</td></tr>
+    <tr><td>5</td><td>Admin guide and training</td><td>Written guide (this document)</td></tr>
+  </table>
+
+  <h3>5. Timeline and Milestones</h3>
+  <table>
+    <tr><th>Phase</th><th>Activities</th><th>Date</th></tr>
+    <tr><td>1. Discovery</td><td>Client meeting, brief, consent, NDA</td><td>6th Nov 2026</td></tr>
+    <tr><td>2. Planning</td><td>Site map, wireframes, proposal</td><td>8th Nov 2026</td></tr>
+    <tr><td>3. Local build</td><td>Full site built and tested locally (WAMP)</td><td>15th Nov 2026</td></tr>
+    <tr><td>4. Hosting &amp; deploy</td><td>cPanel setup, database, deployment, emails</td><td>20th Nov 2026</td></tr>
+    <tr><td>5. Security &amp; SEO</td><td>SSL, hardening, SEO, speed tests</td><td>24th Nov 2026</td></tr>
+    <tr><td>6. Handover</td><td>Documentation, training, sign-off</td><td>27th Nov 2026</td></tr>
+  </table>
+
+  <h3>6. Roles and Responsibilities</h3>
+  <table>
+    <tr><th>Developer</th><th>Client</th></tr>
+    <tr><td>Design, develop, host, secure and launch the site</td><td>Supply product images, prices and logo on time</td></tr>
+    <tr><td>Provide documentation and training</td><td>Give feedback within 3 working days</td></tr>
+    <tr><td>Keep client information confidential</td><td>Approve milestones in writing</td></tr>
+    <tr><td>Respond to support requests as agreed</td><td>Appoint one contact person: Lubega Shanan</td></tr>
+  </table>
+
+  <h3>7. Payment Terms</h3>
+  <p>Full payment is due after the site goes live and is confirmed working. See Quotation (Document 5) for itemised costs.</p>
+  <table>
+    <tr><th>Stage</th><th>Amount</th><th>Due</th></tr>
+    <tr><td>Full payment</td><td>UGX 2,000,000</td><td>After site goes live</td></tr>
+  </table>
+
+  <h3>8. Terms</h3>
+  <ol>
+    <li>On full payment, the Client owns the website content and design files delivered.</li>
+    <li>The Developer may show the project in a portfolio only with written permission.</li>
+    <li>Changes outside scope are quoted separately.</li>
+    <li>Confidential information is protected by the signed NDA.</li>
+  </ol>
+
+  <h3>9. Acceptance</h3>
+  <div class="sig-block">
+    <table>
+      <tr><th colspan="2">Client</th><th colspan="2">Developer</th></tr>
+      <tr><td class="sig-label">Full name</td><td>Lubega Shanan</td><td class="sig-label">Full name</td><td>Kasozi Hafizu</td></tr>
+      <tr><td class="sig-label">Signature</td><td style="height:40px"></td><td class="sig-label">Signature</td><td style="height:40px"></td></tr>
+      <tr><td class="sig-label">Date</td><td></td><td class="sig-label">Date</td><td>8th November 2026</td></tr>
+    </table>
+  </div>
+  <div class="doc-footer"><span>Confidential</span><span>MR UPGRADE — BIT 2103 Documentation Pack</span><span>Document 4 of 8</span></div>
+</div>
+
+<!-- ================================================================
+     DOCUMENT 5 — QUOTATION
+     ================================================================ -->
+<div class="doc-page">
+  <div class="doc-header">
+    <div class="doc-num">5</div>
+    <div class="doc-header-text">
+      <h2>Quotation</h2>
+      <p>Itemised cost estimate — website project</p>
+    </div>
+  </div>
+
+  <div class="meta-block">
+    <table>
+      <tr><td>Quotation No:</td><td>Q-001</td><td>Date:</td><td>6th November 2026</td></tr>
+      <tr><td>Valid until:</td><td>20th November 2026</td><td>Currency:</td><td>UGX</td></tr>
+      <tr><td>Prepared for:</td><td>MR UPGRADE — Lubega Shanan (+256 743 741 601)</td><td>Prepared by:</td><td>Kasozi Hafizu (+256 784 041 256)</td></tr>
+    </table>
+  </div>
+
+  <h3>Cost Breakdown</h3>
+  <table>
+    <tr><th>Item</th><th>Description</th><th>Qty</th><th>Unit Price (UGX)</th><th>Amount (UGX)</th></tr>
+    <tr><td>Design</td><td>UI design, branding, homepage layout</td><td>1</td><td>300,000</td><td>300,000</td></tr>
+    <tr><td>Development</td><td>Multi-page responsive site build</td><td>1</td><td>500,000</td><td>500,000</td></tr>
+    <tr><td>Custom module</td><td>MySQL module with full CRUD</td><td>1</td><td>200,000</td><td>200,000</td></tr>
+    <tr><td>Business feature</td><td>E-commerce store + installment plan</td><td>1</td><td>300,000</td><td>300,000</td></tr>
+    <tr><td>Domain name</td><td>mrupgrade.mmuhub.com — 1 year</td><td>1</td><td>50,000</td><td>50,000</td></tr>
+    <tr><td>Hosting</td><td>cPanel hosting — 1 year</td><td>1</td><td>150,000</td><td>150,000</td></tr>
+    <tr><td>SSL certificate</td><td>HTTPS site-wide (Let's Encrypt)</td><td>1</td><td>0</td><td>0</td></tr>
+    <tr><td>Payment integration</td><td>Pesapal (MTN MoMo + Airtel Money)</td><td>1</td><td>100,000</td><td>100,000</td></tr>
+    <tr><td>Security setup</td><td>Hardening, CSRF, rate limiting, backups</td><td>1</td><td>80,000</td><td>80,000</td></tr>
+    <tr><td>SEO and speed</td><td>Meta tags, sitemap, image optimisation</td><td>1</td><td>70,000</td><td>70,000</td></tr>
+    <tr><td>Content article</td><td>Keyword article, 500+ words</td><td>1</td><td>50,000</td><td>50,000</td></tr>
+    <tr><td>Training</td><td>Admin guide, training, handover</td><td>1</td><td>100,000</td><td>100,000</td></tr>
+    <tr><td>Maintenance</td><td>Monthly retainer — per month</td><td>1</td><td>150,000</td><td>150,000</td></tr>
+    <tr><td colspan="4" style="text-align:right;font-weight:700">Subtotal</td><td style="font-weight:700">2,050,000</td></tr>
+    <tr><td colspan="4" style="text-align:right;font-weight:700">Discount</td><td style="font-weight:700">50,000</td></tr>
+    <tr><td colspan="4" style="text-align:right;font-weight:700">Tax / VAT</td><td>0</td></tr>
+    <tr style="background:#0a0e1a;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact">
+      <td colspan="4" style="text-align:right;font-weight:800;color:#fff;font-size:1rem">TOTAL</td>
+      <td style="font-weight:900;color:#f97316;font-size:1rem">UGX 2,000,000</td>
+    </tr>
+  </table>
+
+  <h3>Terms</h3>
+  <ul style="padding-left:1.25rem;color:#334155;font-size:.875rem">
+    <li>Prices are in Uganda Shillings and valid for 14 days from the quotation date.</li>
+    <li>Domain and hosting renew yearly; renewal costs are quoted separately.</li>
+    <li>Work outside the agreed scope is quoted separately.</li>
+    <li>Full payment is due after the site goes live and is confirmed working.</li>
+  </ul>
+
+  <h3>Acceptance</h3>
+  <div class="sig-block">
+    <table>
+      <tr><th colspan="2">Client</th><th colspan="2">Developer</th></tr>
+      <tr><td class="sig-label">Full name</td><td>Lubega Shanan</td><td class="sig-label">Full name</td><td>Kasozi Hafizu</td></tr>
+      <tr><td class="sig-label">Signature</td><td style="height:40px"></td><td class="sig-label">Signature</td><td style="height:40px"></td></tr>
+      <tr><td class="sig-label">Date</td><td></td><td class="sig-label">Date</td><td></td></tr>
+    </table>
+  </div>
+  <div class="doc-footer"><span>Confidential</span><span>MR UPGRADE — BIT 2103 Documentation Pack</span><span>Document 5 of 8</span></div>
+</div>
+
+<!-- ================================================================
+     DOCUMENT 6 — INVOICE
+     ================================================================ -->
+<div class="doc-page">
+  <div class="doc-header">
+    <div class="doc-num">6</div>
+    <div class="doc-header-text">
+      <h2>Invoice</h2>
+      <p>Itemised invoice for website project services</p>
+    </div>
+  </div>
+
+  <div class="meta-block">
+    <table>
+      <tr><td>Invoice No:</td><td>INV-001</td><td>Date:</td><td>27th November 2026</td></tr>
+      <tr><td>Due date:</td><td>After site go-live confirmation</td><td>Reference:</td><td>Quotation Q-001</td></tr>
+      <tr><td>Billed to:</td><td>MR UPGRADE — Lubega Shanan, Pioneer Mall PG52, Kampala</td><td>Billed by:</td><td>Kasozi Hafizu (+256 784 041 256)</td></tr>
+    </table>
+  </div>
+
+  <h3>Invoice Items</h3>
+  <table>
+    <tr><th>Item</th><th>Description</th><th>Amount (UGX)</th></tr>
+    <tr><td>Design</td><td>UI design, branding, homepage layout</td><td>300,000</td></tr>
+    <tr><td>Development</td><td>Multi-page responsive site build</td><td>500,000</td></tr>
+    <tr><td>Custom module</td><td>MySQL module with full CRUD</td><td>200,000</td></tr>
+    <tr><td>Business feature</td><td>E-commerce store + installment plan</td><td>300,000</td></tr>
+    <tr><td>Domain name</td><td>mrupgrade.mmuhub.com — 1 year</td><td>50,000</td></tr>
+    <tr><td>Hosting</td><td>cPanel hosting — 1 year</td><td>150,000</td></tr>
+    <tr><td>SSL certificate</td><td>HTTPS site-wide</td><td>0</td></tr>
+    <tr><td>Payment integration</td><td>Pesapal (MTN MoMo + Airtel Money)</td><td>100,000</td></tr>
+    <tr><td>Security setup</td><td>Hardening, backups, CSRF protection</td><td>80,000</td></tr>
+    <tr><td>SEO and speed</td><td>Meta tags, sitemap, optimisation</td><td>70,000</td></tr>
+    <tr><td>Content article</td><td>Keyword article 500+ words</td><td>50,000</td></tr>
+    <tr><td>Training &amp; handover</td><td>Admin guide, training session</td><td>100,000</td></tr>
+    <tr><td>Maintenance (1 month)</td><td>Monthly retainer</td><td>150,000</td></tr>
+    <tr><td colspan="2" style="text-align:right;font-weight:700">Subtotal</td><td style="font-weight:700">2,050,000</td></tr>
+    <tr><td colspan="2" style="text-align:right;font-weight:700">Discount</td><td style="font-weight:700">50,000</td></tr>
+    <tr style="background:#0a0e1a;color:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact">
+      <td colspan="2" style="text-align:right;font-weight:800;color:#fff;font-size:1rem">TOTAL DUE</td>
+      <td style="font-weight:900;color:#f97316;font-size:1rem">UGX 2,000,000</td>
+    </tr>
+  </table>
+
+  <h3>Payment Methods</h3>
+  <table>
+    <tr><th>Method</th><th>Details</th></tr>
+    <tr><td>MTN Mobile Money</td><td>+256 784 041 256 (Kasozi Hafizu)</td></tr>
+    <tr><td>Airtel Money</td><td>+256 784 041 256 (Kasozi Hafizu)</td></tr>
+    <tr><td>Cash</td><td>At agreed meeting point</td></tr>
+  </table>
+
+  <div class="info-box" style="margin-top:1rem">
+    Payment is due in full after confirmation that the live site is working correctly. Domain and hosting renewal (yearly) will be invoiced separately.
+  </div>
+
+  <div class="sig-block">
+    <table>
+      <tr><th colspan="2">Client</th><th colspan="2">Developer</th></tr>
+      <tr><td class="sig-label">Full name</td><td>Lubega Shanan</td><td class="sig-label">Full name</td><td>Kasozi Hafizu</td></tr>
+      <tr><td class="sig-label">Signature</td><td style="height:40px"></td><td class="sig-label">Signature</td><td style="height:40px"></td></tr>
+      <tr><td class="sig-label">Date</td><td></td><td class="sig-label">Date</td><td>27th November 2026</td></tr>
+    </table>
+  </div>
+  <div class="doc-footer"><span>Confidential</span><span>MR UPGRADE — BIT 2103 Documentation Pack</span><span>Document 6 of 8</span></div>
+</div>
+
+<!-- ================================================================
+     DOCUMENT 7 — NON-DISCLOSURE AGREEMENT
+     ================================================================ -->
+<div class="doc-page">
+  <div class="doc-header">
+    <div class="doc-num">7</div>
+    <div class="doc-header-text">
+      <h2>Non-Disclosure Agreement</h2>
+      <p>Mutual confidentiality agreement — website project</p>
+    </div>
+  </div>
+
+  <p>This Agreement is made on <strong>6th November 2026</strong> between <strong>Kasozi Hafizu</strong>, Reg No: 2025/U/MMU/BCS/00068, Kampala, Uganda and <strong>MR UPGRADE</strong> of Pioneer Mall, Room PG52, Kampala, represented by <strong>Lubega Shanan (CEO)</strong>.</p>
+
+  <p><strong>Purpose.</strong> The parties will share information to plan, build, host and maintain a website for MR UPGRADE (the "Project").</p>
+
+  <ol>
+    <li><strong>Confidential Information</strong> means all non-public information disclosed by either party — including business plans, prices, customer and staff data, login credentials, source code, designs and documents reasonably understood to be confidential.</li>
+    <li><strong>Obligations.</strong> Each party will (a) keep the other's information secret, (b) use it only for the Project, (c) share it only with people bound to keep it secret, and (d) protect it with the same care used for their own confidential information.</li>
+    <li><strong>Exclusions.</strong> This Agreement does not cover information that is or becomes public without breach, was already lawfully known, is independently developed, or is lawfully received from a third party.</li>
+    <li><strong>Required disclosure.</strong> If the law or a court requires disclosure, the receiving party will give prompt notice where lawful and disclose only what is required.</li>
+    <li><strong>Credentials and personal data.</strong> The Developer will store passwords and personal data securely and handle them in line with the Data Protection and Privacy Act, 2019 of Uganda.</li>
+    <li><strong>Assessment.</strong> The Client agrees the Developer may disclose Project materials to the university examiner for marking. Any temporary examiner account will be deleted after marking.</li>
+    <li><strong>Duration.</strong> Obligations apply from the date above and continue for 2 years after the Project ends. Obligations for personal data continue as long as the information stays confidential.</li>
+    <li><strong>Governing law.</strong> This Agreement is governed by the laws of Uganda. Disputes will first be settled by discussion.</li>
+  </ol>
+
+  <div class="sig-block" style="margin-top:1.5rem">
+    <table>
+      <tr><th colspan="2">Client</th><th colspan="2">Developer</th></tr>
+      <tr><td class="sig-label">Full name</td><td>Lubega Shanan</td><td class="sig-label">Full name</td><td>Kasozi Hafizu</td></tr>
+      <tr><td class="sig-label">Signature</td><td style="height:50px"></td><td class="sig-label">Signature</td><td style="height:50px"></td></tr>
+      <tr><td class="sig-label">Date</td><td>6th November 2026</td><td class="sig-label">Date</td><td>6th November 2026</td></tr>
+    </table>
+  </div>
+  <div class="doc-footer"><span>Confidential</span><span>MR UPGRADE — BIT 2103 Documentation Pack</span><span>Document 7 of 8</span></div>
+</div>
+
+<!-- ================================================================
+     DOCUMENT 8 — HANDOVER PACK
+     ================================================================ -->
+<div class="doc-page">
+  <div class="doc-header">
+    <div class="doc-num">8</div>
+    <div class="doc-header-text">
+      <h2>Handover Pack</h2>
+      <p>Admin guide · Credentials · Training record · Support package</p>
+    </div>
+  </div>
+
+  <div class="meta-block">
+    <table>
+      <tr><td>Project:</td><td>MR UPGRADE Website</td><td>Date:</td><td>27th November 2026</td></tr>
+      <tr><td>Developer:</td><td>Kasozi Hafizu (+256 784 041 256)</td><td>Live URL:</td><td>https://mrupgrade.mmuhub.com</td></tr>
+    </table>
+  </div>
+
+  <h3>A. Admin Guide — How to Manage the Website</h3>
+
+  <table>
+    <tr><th>Task</th><th>How to do it</th></tr>
+    <tr><td>Log in as admin</td><td>Go to mrupgrade.mmuhub.com/login → enter admin email and password → taken to dashboard</td></tr>
+    <tr><td>Add a new product</td><td>Admin → Products → + Add Product → fill in name, category, price, stock, image → Save</td></tr>
+    <tr><td>Edit a product</td><td>Admin → Products → ✏️ pen icon → change details → Save Changes</td></tr>
+    <tr><td>Remove a product</td><td>Admin → Products → 🗑️ trash icon → confirm in popup</td></tr>
+    <tr><td>View and update orders</td><td>Admin → Orders → click any order → scroll to Update Status → select status → Update</td></tr>
+    <tr><td>Mark cash payment received</td><td>Admin → Orders → View order → change Payment Status to "Fully Paid"</td></tr>
+    <tr><td>Update installment weeks paid</td><td>Admin → Orders → View → Installment Plan section → update Weeks Paid → Update Plan</td></tr>
+    <tr><td>Reply to customer messages</td><td>Admin → Messages → click message → Reply Via Email / WhatsApp / SMS</td></tr>
+    <tr><td>Change admin password</td><td>Admin → My Account → Change Password tab → enter current and new password → Save</td></tr>
+  </table>
+
+  <h3>B. Credentials Sheet</h3>
+  <div class="info-box">⚠️ Keep this sheet confidential. Do not share passwords by email or WhatsApp. Change the admin password immediately after handover.</div>
+  <table>
+    <tr><th>Item</th><th>Value</th></tr>
+    <tr><td>Live URL</td><td>https://mrupgrade.mmuhub.com</td></tr>
+    <tr><td>Admin login URL</td><td>https://mrupgrade.mmuhub.com/login</td></tr>
+    <tr><td>Admin email</td><td>admin@gmail.com</td></tr>
+    <tr><td>Admin password</td><td>__________ (change immediately after handover)</td></tr>
+    <tr><td>cPanel URL</td><td>Provided by mmuhub.com hosting</td></tr>
+    <tr><td>cPanel username</td><td>__________</td></tr>
+    <tr><td>cPanel password</td><td>__________</td></tr>
+    <tr><td>Pesapal dashboard</td><td>https://cybqa.pesapal.com/pesapalv3</td></tr>
+    <tr><td>Africa's Talking</td><td>https://account.africastalking.com</td></tr>
+    <tr><td>GitHub repository</td><td>https://github.com/hakstech/MR.UPGRADE-FINAL-PROJECT.git</td></tr>
+  </table>
+
+  <h3>C. Training Record</h3>
+  <table>
+    <tr><td style="font-weight:600;width:30%">Training date</td><td>27th November 2026</td></tr>
+    <tr><td style="font-weight:600">Format</td><td>Written admin guide (provided above)</td></tr>
+    <tr><td style="font-weight:600">Trainer</td><td>Kasozi Hafizu</td></tr>
+    <tr><td style="font-weight:600">Trainee</td><td>Lubega Shanan</td></tr>
+    <tr><td style="font-weight:600">Topics covered</td><td>Login · Products · Orders · Installments · Messages · Password change</td></tr>
+  </table>
+
+  <h3>D. Support Package — Monthly Retainer (UGX 150,000/month)</h3>
+  <table>
+    <tr><th>Service</th><th>Included</th></tr>
+    <tr><td>Monthly security check</td><td>✓</td></tr>
+    <tr><td>Database backup verification</td><td>✓</td></tr>
+    <tr><td>Bug fixes (up to 2 hours/month)</td><td>✓</td></tr>
+    <tr><td>Product updates (up to 10 products/month)</td><td>✓</td></tr>
+    <tr><td>Response time</td><td>Within 48 hours</td></tr>
+    <tr><td>Support contact</td><td>Kasozi Hafizu — +256 784 041 256 (WhatsApp preferred)</td></tr>
+  </table>
+
+  <h3>E. What Was Delivered</h3>
+  <table>
+    <tr><th>Deliverable</th><th>Status</th></tr>
+    <tr><td>Live website at mrupgrade.mmuhub.com</td><td>✅ Delivered</td></tr>
+    <tr><td>Admin panel (products, orders, customers, messages, installments)</td><td>✅ Delivered</td></tr>
+    <tr><td>Installment plan system (40% deposit, weekly tracking)</td><td>✅ Delivered</td></tr>
+    <tr><td>Pesapal payment integration (MTN MoMo + Airtel Money)</td><td>✅ Delivered</td></tr>
+    <tr><td>Africa's Talking SMS reply system</td><td>✅ Delivered</td></tr>
+    <tr><td>HTTPS and security hardening</td><td>✅ Delivered</td></tr>
+    <tr><td>SEO (sitemap, meta tags, structured data, robots.txt)</td><td>✅ Delivered</td></tr>
+    <tr><td>GitHub repository with 8+ meaningful commits</td><td>✅ Delivered</td></tr>
+    <tr><td>This documentation pack (8 documents)</td><td>✅ Delivered</td></tr>
+  </table>
+
+  <h3>F. Handover Sign-off</h3>
+  <p>I confirm that the website has been delivered, demonstrated and that I have received the admin guide and credentials.</p>
+
+  <div class="sig-block">
+    <table>
+      <tr><th colspan="2">Client</th><th colspan="2">Developer</th></tr>
+      <tr><td class="sig-label">Full name</td><td>Lubega Shanan</td><td class="sig-label">Full name</td><td>Kasozi Hafizu</td></tr>
+      <tr><td class="sig-label">Signature</td><td style="height:50px"></td><td class="sig-label">Signature</td><td style="height:50px"></td></tr>
+      <tr><td class="sig-label">Date</td><td></td><td class="sig-label">Date</td><td>27th November 2026</td></tr>
+    </table>
+  </div>
+
+  <div class="doc-footer"><span>Confidential</span><span>MR UPGRADE — BIT 2103 Documentation Pack</span><span>Document 8 of 8</span></div>
+</div>
+
+</body>
+</html>
