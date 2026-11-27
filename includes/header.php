@@ -20,8 +20,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title><?= isset($page_title) ? htmlspecialchars($page_title) . ' | Mr. Upgrade Uganda' : "Mr. Upgrade Uganda | Best iPhone &amp; Smartphone Deals — Buy Now" ?></title>
-  <link rel="icon" type="image/png" href="<?= SITE_URL ?>/assets/images/favicon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="<?= SITE_URL ?>/assets/images/favicon.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="<?= SITE_URL ?>/assets/images/favicon.png" />
   <link rel="shortcut icon" href="<?= SITE_URL ?>/assets/images/favicon.png" />
+  <link rel="apple-touch-icon" href="<?= SITE_URL ?>/assets/images/favicon.png" />
 
   <?php seoHead(
       $page_title ?? null,
