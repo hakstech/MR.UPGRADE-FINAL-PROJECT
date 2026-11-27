@@ -3,11 +3,11 @@ Options -ExecCGI
 ServerSignature Off
 
 # ---- Force HTTPS (PRODUCTION ONLY — uncomment when live) ----
- <IfModule mod_rewrite.c>
-    RewriteEngine On
-     RewriteCond %{HTTPS} off
-     RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
- </IfModule>
+#<IfModule mod_rewrite.c>
+#    RewriteEngine On
+#    RewriteCond %{HTTPS} off
+#    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+#</IfModule>
 
 # ============================================================
 # CLEAN URL REWRITING
@@ -62,9 +62,9 @@ ServerSignature Off
 </IfModule>
 
 # ---- Protect config directory (enable on production) ----
- <IfModule mod_rewrite.c>
-     RewriteRule ^config/ - [F,L]
- </IfModule>
+#<IfModule mod_rewrite.c>
+#    RewriteRule ^config/ - [F,L]
+#</IfModule>
 
 # ---- Security Headers ----
 <IfModule mod_headers.c>
